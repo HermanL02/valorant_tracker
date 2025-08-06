@@ -23,7 +23,7 @@ const ValorantIcon = ({ type, className, colored = false }: { type: 'vandal' | '
   const [hasError, setHasError] = useState(false)
 
   // 如果图标加载失败，显示后备图标
-  if (hasError || type === 'spike') {
+  if (hasError) {
     const FallbackIcon = type === 'spike' ? Trophy : 
                         type === 'vandal' ? Sword :
                         type === 'phantom' ? Target : Trophy

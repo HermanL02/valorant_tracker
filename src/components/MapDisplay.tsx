@@ -5,6 +5,28 @@ import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { IUser } from '@/models/User'
 
+// Small Rolling Sage Icon Component
+const SmallRollingSageIcon = ({ className }: { className?: string }) => {
+  const [hasError, setHasError] = useState(false)
+
+  if (hasError) {
+    return <div className={`animate-spin rounded-full border-b-2 border-yellow-400 ${className}`}></div>
+  }
+
+  return (
+    <img 
+      src="https://media.valorant-api.com/agents/5f8d3a7f-467b-97f3-062c-13acf203c006/displayicon.png"
+      alt="Sage"
+      className={`inline-block object-contain ${className}`}
+      style={{
+        animation: 'spin 2s linear infinite',
+        filter: 'brightness(0) invert(1)'
+      }}
+      onError={() => setHasError(true)}
+    />
+  )
+}
+
 // 地图数据接口
 interface MapStats {
   wins: number
@@ -120,7 +142,7 @@ export default function MapDisplay({ users }: MapDisplayProps) {
   if (loading) {
     return (
       <div className="text-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400 mx-auto"></div>
+        <SmallRollingSageIcon className="h-8 w-8 mx-auto" />
         <p className="text-gray-400 mt-2">正在加载地图数据...</p>
       </div>
     )

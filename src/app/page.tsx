@@ -8,6 +8,28 @@ import { Button } from '@/components/ui/button'
 import { Loader2, Sprout, RotateCcw, RefreshCw, Trophy } from 'lucide-react'
 import Link from 'next/link'
 
+// Rolling Sage Icon Component
+const RollingSageIcon = ({ className }: { className?: string }) => {
+  const [hasError, setHasError] = useState(false)
+
+  if (hasError) {
+    return <Loader2 className={`${className} animate-spin`} />
+  }
+
+  return (
+    <img 
+      src="https://media.valorant-api.com/agents/5f8d3a7f-467b-97f3-062c-13acf203c006/displayicon.png"
+      alt="Sage"
+      className={`inline-block object-contain ${className}`}
+      style={{
+        animation: 'spin 2s linear infinite',
+        filter: 'brightness(0) invert(1)'
+      }}
+      onError={() => setHasError(true)}
+    />
+  )
+}
+
 export default function HomePage() {
   const [users, setUsers] = useState<IUser[]>([])
   const [loading, setLoading] = useState(true)
@@ -85,9 +107,9 @@ export default function HomePage() {
         <div className="relative z-10">
         <Card className="bg-slate-800/80 backdrop-blur-xl shadow-2xl border border-purple-500/30">
           <CardContent className="p-12 text-center">
-            <Loader2 className="w-16 h-16 animate-spin text-purple-400 mx-auto mb-6 glow" />
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 pulse-glow">牛逼中...</h2>
-            <p className="text-purple-200 text-lg floating">瓦罗兰特啓動...</p>
+            <RollingSageIcon className="w-16 h-16 text-purple-400 mx-auto mb-6 glow" />
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 pulse-glow">正在召集牛逼战队成员...</h2>
+            <p className="text-purple-200 text-lg floating">Sage 正在准备治疗...</p>
           </CardContent>
         </Card>
         </div>
