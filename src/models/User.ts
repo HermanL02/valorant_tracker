@@ -13,6 +13,16 @@ export interface IUser extends Document {
   deaths?: number
   assists?: number
   firstBloods?: number
+  // 地图相关数据
+  mapStats?: {
+    [mapName: string]: {
+      wins: number
+      games: number
+      winRate: number
+    }
+  }
+  bestMap?: string
+  bestMapWinRate?: number
   lastUpdated?: Date
   createdAt: Date
   updatedAt: Date
@@ -31,6 +41,10 @@ const UserSchema: Schema = new Schema({
   deaths: { type: Number },
   assists: { type: Number },
   firstBloods: { type: Number },
+  // 地图相关数据
+  mapStats: { type: Schema.Types.Mixed },
+  bestMap: { type: String },
+  bestMapWinRate: { type: Number },
   lastUpdated: { type: Date },
 }, {
   timestamps: true

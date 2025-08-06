@@ -6,6 +6,7 @@ import { IUser } from '@/models/User'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Trophy, Sword, Target, Crown, Star, Zap } from 'lucide-react'
+import MapDisplay from './MapDisplay'
 
 // Valorant-style custom icons component with fallback
 const ValorantIcon = ({ type, className, colored = false }: { type: 'vandal' | 'phantom' | 'spike' | 'rank' | 'jett' | 'reyna' | 'sage', className?: string, colored?: boolean }) => {
@@ -257,6 +258,9 @@ export default function WeeklyBest({ users }: WeeklyBestProps) {
             </CardContent>
           </Card>
         </motion.div>
+
+        {/* 地图数据展示 */}
+        <MapDisplay users={users} />
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import User from '@/models/User'
+import TeamMapStats from '@/models/TeamMapStats'
 import ValorantAPI from '@/lib/valorantApi'
 
 export async function POST() {
@@ -31,6 +32,9 @@ export async function POST() {
       // Fetch season stats
       const seasonStats = await valorantAPI.getSeasonStats(username, tag)
       
+      // Fetch map stats
+      const mapStats = await valorantAPI.getMapStats(username, tag)
+      
       // Update user in database
       const updatedUser = await User.findByIdAndUpdate(
         user._id,
@@ -44,15 +48,51 @@ export async function POST() {
           deaths: seasonStats.deaths || 0,
           assists: seasonStats.assists || 0,
           firstBloods: seasonStats.firstBloods || 0,
+          // 添加地图数据
+          mapStats: mapStats.mapStats || {},
+          bestMap: mapStats.bestMap || null,
+          bestMapWinRate: mapStats.bestMapWinRate || 0,
           lastUpdated: new Date(),
         },
         { new: true }
       )
       
+      // Check if we should update team map stats (every 10th user update or if never updated)
+      const userCount = await User.countDocuments({})
+      const userIndex = await User.countDocuments({ lastUpdated: { $lt: updatedUser.lastUpdated } })
+      
+      // Update team map stats every 10th user or if team stats don't exist
+      const teamMapStats = await TeamMapStats.findOne({})
+      const shouldUpdateTeamStats = (userIndex % 10 === 0) || !teamMapStats
+      
+      if (shouldUpdateTeamStats) {
+        try {
+          const allUsers = await User.find({})
+          const teamMapData = await valorantAPI.getTeamMapStats(allUsers)
+          
+          if (!teamMapData.error) {
+            await TeamMapStats.findOneAndUpdate(
+              {},
+              {
+                bestTeamMap: teamMapData.bestTeamMap,
+                bestTeamWinRate: teamMapData.bestTeamWinRate,
+                teamMapStats: teamMapData.teamMapStats,
+                lastUpdated: new Date()
+              },
+              { upsert: true, new: true }
+            )
+          }
+        } catch (teamError) {
+          console.error('Error updating team map stats:', teamError)
+          // Don't fail the entire cron job for team stats errors
+        }
+      }
+      
       return NextResponse.json({ 
         message: 'User updated successfully', 
         user: updatedUser,
-        updated: user.realName 
+        updated: user.realName,
+        teamStatsUpdated: shouldUpdateTeamStats
       })
       
     } catch (apiError: unknown) {

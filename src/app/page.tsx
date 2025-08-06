@@ -86,8 +86,8 @@ export default function HomePage() {
         <Card className="bg-slate-800/80 backdrop-blur-xl shadow-2xl border border-purple-500/30">
           <CardContent className="p-12 text-center">
             <Loader2 className="w-16 h-16 animate-spin text-purple-400 mx-auto mb-6 glow" />
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 pulse-glow">正在加载牛逼战队排行榜</h2>
-            <p className="text-purple-200 text-lg floating">正在召集牛逼战队成员...</p>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 pulse-glow">牛逼中...</h2>
+            <p className="text-purple-200 text-lg floating">瓦罗兰特啓動...</p>
           </CardContent>
         </Card>
         </div>
