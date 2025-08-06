@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import WeeklyBest from '@/components/WeeklyBest'
+import MapDisplay from '@/components/MapDisplay'
+import Leaderboard from '@/components/Leaderboard'
 import { IUser } from '@/models/User'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Loader2, Sprout, RotateCcw, RefreshCw, Trophy } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Loader2, Sprout, RotateCcw, RefreshCw, Trophy, Map, Home, Users } from 'lucide-react'
 import Link from 'next/link'
 
 // Rolling Sage Icon Component
@@ -143,55 +146,81 @@ export default function HomePage() {
   }
 
   return (
-    <main className="relative">
-      <WeeklyBest users={users} />
+    <main className="min-h-screen valorant-bg relative">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
       
-      {/* Navigation and Admin Controls */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 flex flex-col gap-2 sm:gap-3">
-        {/* 查看详细排行榜按钮 */}
-        <Link href="/leaderboard">
-          <Button
-            size="sm"
-            className="bg-gradient-to-r from-purple-600/80 to-pink-600/80 hover:from-purple-700/80 hover:to-pink-700/80 border-purple-500 text-white backdrop-blur-xl glow hover:scale-105 transition-all duration-300 sm:size-lg w-full"
-          >
-            <Trophy className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
-            <span className="hidden sm:inline">详细排行榜</span>
-            <span className="sm:hidden">排行榜</span>
-          </Button>
-        </Link>
+      <div className="relative z-10">
+        <Tabs defaultValue="home" className="w-full">
+          {/* Tab Navigation */}
+          <div className="sticky top-0 z-20 backdrop-blur-xl bg-black/50 border-b border-purple-500/30">
+            <div className="container mx-auto px-4 py-4">
+              <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 bg-slate-800/80 backdrop-blur-xl border border-purple-500/30">
+                <TabsTrigger value="home" className="flex items-center gap-2 text-purple-200 data-[state=active]:text-purple-400 data-[state=active]:bg-purple-500/20">
+                  <Home className="w-4 h-4" />
+                  <span className="hidden sm:inline">首页</span>
+                </TabsTrigger>
+                <TabsTrigger value="rankings" className="flex items-center gap-2 text-purple-200 data-[state=active]:text-purple-400 data-[state=active]:bg-purple-500/20">
+                  <Trophy className="w-4 h-4" />
+                  <span className="hidden sm:inline">排行榜</span>
+                </TabsTrigger>
+                <TabsTrigger value="maps" className="flex items-center gap-2 text-purple-200 data-[state=active]:text-purple-400 data-[state=active]:bg-purple-500/20">
+                  <Map className="w-4 h-4" />
+                  <span className="hidden sm:inline">地图</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
+          </div>
 
-        <Button
-          onClick={seedDatabase}
-          size="sm"
-          variant="outline"
-          className="bg-green-600/80 hover:bg-green-700 border-green-500 text-white backdrop-blur-xl glow hover:scale-105 transition-all duration-300 sm:size-lg"
-        >
-          <Sprout className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
-          <span className="hidden sm:inline">初始化数据库</span>
-          <span className="sm:hidden">初始化</span>
-        </Button>
-        
-        <Button
-          onClick={updateUser}
-          size="sm"
-          variant="outline"
-          className="bg-orange-600/80 hover:bg-orange-700 border-orange-500 text-white backdrop-blur-xl glow hover:scale-105 transition-all duration-300 sm:size-lg"
-        >
-          <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
-          <span className="hidden sm:inline">更新战士</span>
-          <span className="sm:hidden">更新</span>
-        </Button>
-        
-        <Button
-          onClick={fetchUsers}
-          size="sm"
-          variant="outline"
-          className="bg-blue-600/80 hover:bg-blue-700 border-blue-500 text-white backdrop-blur-xl glow hover:scale-105 transition-all duration-300 sm:size-lg"
-        >
-          <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
-          <span className="hidden sm:inline">刷新战况</span>
-          <span className="sm:hidden">刷新</span>
-        </Button>
+          {/* Tab Contents */}
+          <TabsContent value="home" className="mt-0">
+            <WeeklyBest users={users} />
+          </TabsContent>
+
+          <TabsContent value="rankings" className="mt-0 p-4">
+            <div className="min-h-screen">
+              <Leaderboard users={users} />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="maps" className="mt-0 p-4">
+            <div className="min-h-screen">
+              <MapDisplay users={users} />
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        {/* Admin Controls - Moved to bottom right */}
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 flex flex-col gap-2 sm:gap-3 z-30">
+          <Button
+            onClick={seedDatabase}
+            size="sm"
+            variant="outline"
+            className="bg-green-600/80 hover:bg-green-700 border-green-500 text-white backdrop-blur-xl glow hover:scale-105 transition-all duration-300"
+          >
+            <Sprout className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">初始化</span>
+          </Button>
+          
+          <Button
+            onClick={updateUser}
+            size="sm"
+            variant="outline"
+            className="bg-orange-600/80 hover:bg-orange-700 border-orange-500 text-white backdrop-blur-xl glow hover:scale-105 transition-all duration-300"
+          >
+            <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">更新</span>
+          </Button>
+          
+          <Button
+            onClick={fetchUsers}
+            size="sm"
+            variant="outline"
+            className="bg-blue-600/80 hover:bg-blue-700 border-blue-500 text-white backdrop-blur-xl glow hover:scale-105 transition-all duration-300"
+          >
+            <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">刷新</span>
+          </Button>
+        </div>
       </div>
     </main>
   )
