@@ -125,7 +125,7 @@ export default function WeeklyBest({ users }: WeeklyBestProps) {
                 </div>
               </motion.div>
               <CardTitle className="text-2xl sm:text-3xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">
-                VALORANT 牛逼战队排行榜
+                VALORANT-牛逼战队
               </CardTitle>
               <p className="text-sm sm:text-lg lg:text-xl text-purple-200 mt-1 sm:mt-2">
                 今天,你我誰更牛逼? 

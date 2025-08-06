@@ -4,7 +4,7 @@ import User from '@/models/User'
 import TeamMapStats from '@/models/TeamMapStats'
 import ValorantAPI from '@/lib/valorantApi'
 
-export async function POST() {
+export async function GET() {
   try {
     await dbConnect()
     
