@@ -125,11 +125,50 @@ export default function WeeklyBest({ users }: WeeklyBestProps) {
                 </div>
               </motion.div>
               <CardTitle className="text-2xl sm:text-3xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">
-                VALORANT-牛逼战队
+                NiuBi战队无畏契约分部
               </CardTitle>
               <p className="text-sm sm:text-lg lg:text-xl text-purple-200 mt-1 sm:mt-2">
                 今天,你我誰更牛逼? 
               </p>
+              
+              {/* Team Members Icons */}
+              <div className="mt-4 sm:mt-6">
+                <div className="grid grid-cols-4 sm:flex sm:justify-center sm:items-center sm:flex-wrap gap-2 sm:gap-3 max-w-4xl mx-auto justify-items-center">
+                  {[...users].sort((a, b) => b.realName.localeCompare(a.realName)).map((user, index) => (
+                    <motion.div
+                      key={user._id?.toString()}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ 
+                        duration: 0.4, 
+                        delay: 0.1 + index * 0.03,
+                        type: "spring"
+                      }}
+                      whileHover={{ scale: 1.1 }}
+                      className="group relative"
+                    >
+                      <Avatar className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 ring-2 ring-purple-400/50 hover:ring-purple-400 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-purple-400/50">
+                        <AvatarImage
+                          src={`/photos/${user.photoPath}`}
+                          alt={user.realName}
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="bg-gradient-to-br from-purple-600 to-blue-600 text-white font-bold text-xs sm:text-sm">
+                          {user.realName[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      
+                      {/* Tooltip */}
+                      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none z-50">
+                        {user.realName}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                <p className="text-xs sm:text-sm text-purple-300 mt-2 opacity-75">
+                  战队成员 ({users.length} 人)
+                </p>
+              </div>
             </CardHeader>
           </Card>
         </motion.div>

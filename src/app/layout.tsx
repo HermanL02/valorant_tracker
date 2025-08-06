@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Valorant 战绩追踪器 - 排行榜',
-  description: '追踪你的 Valorant 战绩，与朋友们一较高下！',
+  title: 'NiuBi战队无畏契约分部',
+  description: '牛逼战队无畏契约分部',
 }
 
 export default function RootLayout({
