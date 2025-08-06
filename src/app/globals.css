@@ -71,6 +71,19 @@
   .glow-accent {
     box-shadow: 0 0 20px hsl(var(--accent)), 0 0 40px hsl(var(--accent));
   }
+
+  /* Valorant-specific glows */
+  .valorant-red-glow {
+    box-shadow: 0 0 20px #ff4655, 0 0 40px #ff4655;
+  }
+  
+  .valorant-teal-glow {
+    box-shadow: 0 0 20px #00f5ff, 0 0 40px #00f5ff;
+  }
+  
+  .valorant-gold-glow {
+    box-shadow: 0 0 20px #f0b90b, 0 0 40px #f0b90b;
+  }
   
   .fancy-gradient {
     background: linear-gradient(45deg, 
@@ -126,7 +139,24 @@
 
 /* Fixed background */
 .valorant-bg {
-  background-image: url('https://media.valorant-api.com/playercards/c0b560fc-4140-9bf1-daee-4da652b824c5/largeart.png');
+  background-image: url('https://media.valorant-api.com/maps/2c9d57ec-4431-9c5e-2939-8f9ef6dd5caa/splash.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Alternative backgrounds for variety */
+.valorant-bg-ascent {
+  background-image: url('https://media.valorant-api.com/maps/7eaecc1b-4337-bbf6-6ab9-04b8f06b3319/splash.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.valorant-bg-bind {
+  background-image: url('https://media.valorant-api.com/maps/2c9d57ec-4431-9c5e-2939-8f9ef6dd5caa/splash.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

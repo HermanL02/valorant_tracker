@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import FancyLeaderboard from '@/components/FancyLeaderboard'
+import WeeklyBest from '@/components/WeeklyBest'
 import { IUser } from '@/models/User'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Loader2, Sprout, RotateCcw, RefreshCw } from 'lucide-react'
+import { Loader2, Sprout, RotateCcw, RefreshCw, Trophy } from 'lucide-react'
+import Link from 'next/link'
 
 export default function HomePage() {
   const [users, setUsers] = useState<IUser[]>([])
@@ -121,10 +122,22 @@ export default function HomePage() {
 
   return (
     <main className="relative">
-      <FancyLeaderboard users={users} />
+      <WeeklyBest users={users} />
       
-      {/* Fancy Admin Controls */}
+      {/* Navigation and Admin Controls */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 flex flex-col gap-2 sm:gap-3">
+        {/* 查看详细排行榜按钮 */}
+        <Link href="/leaderboard">
+          <Button
+            size="sm"
+            className="bg-gradient-to-r from-purple-600/80 to-pink-600/80 hover:from-purple-700/80 hover:to-pink-700/80 border-purple-500 text-white backdrop-blur-xl glow hover:scale-105 transition-all duration-300 sm:size-lg w-full"
+          >
+            <Trophy className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">详细排行榜</span>
+            <span className="sm:hidden">排行榜</span>
+          </Button>
+        </Link>
+
         <Button
           onClick={seedDatabase}
           size="sm"
